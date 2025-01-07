@@ -1,4 +1,4 @@
-﻿<script>
+﻿<script lang="ts">
     import * as Scry from "scryfall-sdk";
 
     let searchQuery = ""; // Set search query
@@ -12,15 +12,15 @@
 
     // Fetch all sets on component mount
     import { onMount } from "svelte";
+
     onMount(async () => {
         try {
-            console.log("Fetching all sets from Scryfall...");
             allSets = await Scry.Sets.all();
-            filteredSets = allSets; // Initialize filtered sets
-            console.log(`Fetched ${allSets.length} sets.`);
+            filteredSets = allSets;
         } catch (error) {
+
             console.error("Error fetching sets:", error);
-            errorMessage = "Error fetching sets.";
+            errorMessage = "Error";
         }
     });
 
@@ -33,43 +33,33 @@
             .slice(0, 10); // Limit to 10 results
     }
 
-    // Open a pack from the selected set
-    async function openPack() {
+
+    async function randomCard(){
         errorMessage = "";
         pack = [];
+        const cardIterable = Scry.Cards.search(`set:${selectedSet.code}`);
+        const cards= [];
 
-        if (!selectedSet) {
-            errorMessage = "Please select a set.";
-            console.log("Error: No set selected.");
-            return;
+        // Collect all cards from the iterable into an array
+        for await (const card of cardIterable) {
+            cards.push(card);
         }
 
-        try {
-            console.log(`Opening pack for set code: ${selectedSet.code}...`);
+        let length =cards.length;
 
-            // Collect all cards from the set into an array
-            const cardIterable = Scry.Cards.search(`set:${selectedSet.code}`);
-            const cards = [];
-            for await (const card of cardIterable) {
-                cards.push(card);
-            }
-            console.log(`Fetched ${cards.length} cards for set ${selectedSet.code}:`, cards);
+        console.log("Fetched Cards:", cards);
 
-            if (cards.length < 15) {
-                errorMessage = "Not enough cards in the set to generate a pack.";
-                console.log("Error: Not enough cards in the set.");
-                return;
-            }
 
-            // Randomly select 7 unique cards
-            const shuffled = cards.sort(() => 0.5 - Math.random());
-            pack = shuffled.slice(0, 15); //
-            console.log("Selected pack cards:", pack);
-        } catch (error) {
-            console.error("Error fetching cards for the pack:", error);
-            errorMessage = "Error opening the pack. Please try again.";
+        while(pack.length <15){
+            const randomIndex = Math.floor(Math.random() * length);
+            pack.push(cards[randomIndex]);
+            console.log("Fetched Card:", cards[randomIndex]);
         }
+        pack = [...pack]; //THIS LINE
+
     }
+    // Open a pack from the selected set
+
 
     // Select a set from the dropdown
     function selectSet(set) {
@@ -136,7 +126,7 @@
     <!-- Open Pack Button -->
     <button
             class="btn btn-primary w-full"
-            on:click={openPack}
+            on:click={randomCard}
             disabled={!selectedSet}
     >
         Open Pack
@@ -148,9 +138,9 @@
             <h3 class="text-lg font-bold mb-4">Your Pack:</h3>
             <div class="flex flex-wrap gap-4 overflow-x-auto">
                 {#each pack as card}
+
                     <button class="card w-32 h-46 rounded-lg " on:click={() => showCard(card)}>
                     <div class="card w-32 h-46 rounded-lg ">
-
                         <img
                                 src={card.image_uris?.normal || ""}
                                 alt={card.name}
@@ -164,6 +154,18 @@
         </div>
     {/if}
 
-    <!-- MODAL area -->
+
+    {#if isModal && selectedCard}
+        <button class="modal modal-open "  on:click={closeModal} >
+            <div class="modal-box bg-transparent bg-flex flex-col items-center justify-content">
+
+                <img
+                        src={selectedCard.image_uris?.normal || ""}
+                        alt={selectedCard.name}
+                        class="w-109 object-cover rounded-lg mb-4 top-100"
+                />
+            </div>
+        </button>
+    {/if}
 
 </div>

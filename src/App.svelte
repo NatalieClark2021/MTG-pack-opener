@@ -51,12 +51,9 @@
 
 <main>
   <!-- Modal -->
-
-
-
   {#if isModal}
     <div class="modal modal-open">
-      <div class="modal-box flex flex-col items-center justify-center">
+      <div class="modal-box  flex flex-col items-center justify-center">
         <h2 class="font-bold text-lg">Is this your card?</h2>
         <p class="py-4">Just kidding. Only MTG fans allowed forward... Are you a fan?</p>
 
