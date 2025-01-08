@@ -192,7 +192,7 @@
                 <img
                         src={selectedCard.image_uris?.normal || ""}
                         alt={selectedCard.name}
-                        class="w-109 object-cover rounded-lg mb-4 top-100"
+                        class="w-109 object-cover card mb-4 top-100"
                 />
         </button>
     {/if}

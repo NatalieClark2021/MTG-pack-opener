@@ -29,11 +29,6 @@ body {
   @apply m-0 flex min-w-[320px] min-h-screen;
 }
 
-h1 {
-  @apply text-4xl leading-tight text-primary-content;
-}
-
-
 
 
 #app {
