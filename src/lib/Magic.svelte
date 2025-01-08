@@ -4,7 +4,7 @@
     import type { Card } from 'scryfall-sdk';
 
 
-    let searchQuery = "";
+    let userInput = "";
     let allSets: Set[] = [];
     let filteredSets: Set[] = [];
     let selectedSet: Set[] = [];
@@ -30,35 +30,58 @@
     // Filter sets dynamically as the user types
     function filterSets() {
         filteredSets = allSets
-            .filter((set) =>
-                set.name.toLowerCase().includes(searchQuery.toLowerCase())
-            )
+            .filter((set) => {
+                let isEnough: Boolean = false;
+                let matchesEntry: Boolean = false;
+                matchesEntry = set.name.toLowerCase().includes(userInput.toLowerCase())
+
+                isEnough = set.card_count> 15; // checks for 15 unique cards in set
+
+
+                return isEnough && matchesEntry;
+
+            }
+
+            );
+
+
+        if(filteredSets.length ==0){
+            errorMessage = "No sets matched that search"; //update user on error
+            selectedSet = [];
+        }
+
+        if(filteredSets.length > 0){ // clear the error
+            errorMessage = "";
+        }
+
     }
 
 
     async function randomCard(){
-        errorMessage = "";
+
         pack = [];
         const cardIterable = Scry.Cards.search(`set:${selectedSet[0].code}`);
         const cards= [];
+        try {
+            // Collect all cards from the iterable into an array
+            for await (const card of cardIterable) {
+                cards.push(card);
+            }
 
-        // Collect all cards from the iterable into an array
-        for await (const card of cardIterable) {
-            cards.push(card);
+            let length = cards.length;
+
+            console.log("Fetched Cards:", cards);
+
+
+            while (pack.length < 15) {
+                const randomIndex = Math.floor(Math.random() * length);
+                pack.push(cards[randomIndex]);
+                console.log("Fetched Card:", cards[randomIndex]);
+            }
+            pack = [...pack]; //THIS LINE IS VITAL TO RELOAD PACK ARRAY
+        } catch (error){
+            errorMessage = "There was an error attempting to fetch that pack";
         }
-
-        let length =cards.length;
-
-        console.log("Fetched Cards:", cards);
-
-
-        while(pack.length <15){
-            const randomIndex = Math.floor(Math.random() * length);
-            pack.push(cards[randomIndex]);
-            console.log("Fetched Card:", cards[randomIndex]);
-        }
-        pack = [...pack]; //THIS LINE IS VITAL TO RELOAD PACK ARRAY
-
     }
 
 
@@ -66,8 +89,8 @@
     // Select a set from the dropdown
     function selectSet(set: Set): void {
         selectedSet[0] = set;
-        searchQuery = set.name;
-        filteredSets = []; // Hide suggestions once a set is selected
+        userInput = set.name;
+        filteredSets = []; // Hide sets after select
     }
 
     function showCard(card : Card){
@@ -94,9 +117,9 @@
         <input
                 id="setSearch"
                 type="text"
-                placeholder="Enter set name..."
+                placeholder="Enter a set name..."
                 class="input input-bordered mb-2"
-                bind:value={searchQuery}
+                bind:value={userInput}
                 on:input={filterSets}
         />
 
@@ -140,8 +163,11 @@
 
     <!-- Display Opened Pack -->
     {#if pack.length > 0}
-        <div class="mt-8">
-            <h3 class="text-lg font-bold mb-4">Your Pack:</h3>
+        <h3 class="text-lg font-bold mb-4 mt-6">Your Pack:</h3>
+    {/if}
+        <div class="">
+
+
             <div class="flex flex-wrap gap-4 overflow-x-auto">
                 {#each pack as card}
 
@@ -157,7 +183,7 @@
                 {/each}
             </div>
         </div>
-    {/if}
+
 
 
     {#if isModal && selectedCard}
