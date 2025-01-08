@@ -60,7 +60,7 @@
         pack = [...pack]; //THIS LINE IS VITAL TO RELOAD PACK ARRAY
 
     }
-    // Open a pack from the selected set
+
 
 
     // Select a set from the dropdown
@@ -80,6 +80,8 @@
     }
 
 </script>
+
+
 
 <div class="p-4 bg-base-200 min-h-screen">
     <h2 class="text-2xl font-bold mb-4">Magic: The Gathering Pack Opener</h2>
@@ -125,6 +127,7 @@
         <div class="text-red-500 mb-4">{errorMessage}</div>
     {/if}
 
+
     <!-- Open Pack Button -->
     <button
             class="btn btn-primary w-full"
@@ -133,6 +136,7 @@
     >
         Open Pack
     </button>
+
 
     <!-- Display Opened Pack -->
     {#if pack.length > 0}
