@@ -1,13 +1,16 @@
 ﻿<script lang="ts">
     import * as Scry from "scryfall-sdk";
+    import type { Set } from 'scryfall-sdk';
+    import type { Card } from 'scryfall-sdk';
 
-    let searchQuery = ""; // Set search query
-    let allSets = []; // All available sets
-    let filteredSets = []; // Sets filtered by search query
-    let selectedSet = null; // Selected set
+
+    let searchQuery = "";
+    let allSets: Set[] = [];
+    let filteredSets: Set[] = [];
+    let selectedSet: Set[] = [];
     let errorMessage = "";
-    let pack = []; // The opened pack of 7 cards
-    let selectedCard = null;
+    let pack:Card[] = [];
+    let selectedCard:Card | null= null;
     let isModal = false;
 
     // Fetch all sets on component mount
@@ -30,14 +33,13 @@
             .filter((set) =>
                 set.name.toLowerCase().includes(searchQuery.toLowerCase())
             )
-            .slice(0, 10); // Limit to 10 results
     }
 
 
     async function randomCard(){
         errorMessage = "";
         pack = [];
-        const cardIterable = Scry.Cards.search(`set:${selectedSet.code}`);
+        const cardIterable = Scry.Cards.search(`set:${selectedSet[0].code}`);
         const cards= [];
 
         // Collect all cards from the iterable into an array
@@ -55,20 +57,20 @@
             pack.push(cards[randomIndex]);
             console.log("Fetched Card:", cards[randomIndex]);
         }
-        pack = [...pack]; //THIS LINE
+        pack = [...pack]; //THIS LINE IS VITAL TO RELOAD PACK ARRAY
 
     }
     // Open a pack from the selected set
 
 
     // Select a set from the dropdown
-    function selectSet(set) {
-        selectedSet = set;
+    function selectSet(set: Set): void {
+        selectedSet[0] = set;
         searchQuery = set.name;
         filteredSets = []; // Hide suggestions once a set is selected
     }
 
-    function showCard(card){
+    function showCard(card : Card){
         selectedCard = card;
         isModal = true;
     }
@@ -140,14 +142,13 @@
                 {#each pack as card}
 
                     <button class="card w-32 h-46 rounded-lg " on:click={() => showCard(card)}>
-                    <div class="card w-32 h-46 rounded-lg ">
+
                         <img
                                 src={card.image_uris?.normal || ""}
                                 alt={card.name}
                                 class="rounded-b-lg rounded-t-lg"
                         />
 
-                    </div>
                     </button>
                 {/each}
             </div>
@@ -157,14 +158,12 @@
 
     {#if isModal && selectedCard}
         <button class="modal modal-open "  on:click={closeModal} >
-            <div class="modal-box bg-transparent bg-flex flex-col items-center justify-content">
 
                 <img
                         src={selectedCard.image_uris?.normal || ""}
                         alt={selectedCard.name}
                         class="w-109 object-cover rounded-lg mb-4 top-100"
                 />
-            </div>
         </button>
     {/if}
 
