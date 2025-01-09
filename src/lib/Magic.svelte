@@ -57,7 +57,7 @@
     }
 
 
-    async function randomCard(){
+    async function randomCards(){
 
         pack = [];
         const cardIterable = Scry.Cards.search(`set:${selectedSet[0].code}`);
@@ -154,7 +154,7 @@
     <!-- Open Pack Button -->
     <button
             class="btn btn-primary w-full"
-            on:click={randomCard}
+            on:click={randomCards}
             disabled={!selectedSet}
     >
         Open Pack

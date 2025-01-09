@@ -5,40 +5,24 @@
   import Input from "./lib/Input.svelte";
   import Magic from "./lib/Magic.svelte";
   import * as Scry from "scryfall-sdk";
+  import type { Card } from 'scryfall-sdk';
 
   let isModal = true;
   let isCalled = false;
-  type Card = {
-    name: string;
-    image_uris?: {
-      normal: string;
-    };
-  } | null;
 
-  let card: Card = null;
+  let card: Card | null = null;
 
-
-
-  async function ranCard() {
+  async function randomCard(){
     try {
-      console.log("Fetching a random card...");
-
-      // Fetch a random card using the Scryfall API
-      const response = await fetch("https://api.scryfall.com/cards/random");
-      if (!response.ok) {
-        throw new Error("Failed to fetch a random card.");
-      }
-
-      const card = await response.json();
-      console.log("Random card fetched:", card);
-
-      // Return the card object
-      return card;
-    } catch (error) {
-      console.error("Error fetching random card:", error);
+      return Scry.Cards.random();
+    }catch(error){
+      console.log("Error fetching card, " + error);
       return null;
     }
+
   }
+
+
 
   function userHandler(isFan: boolean){
     if(isFan){
@@ -54,12 +38,12 @@
   {#if isModal}
     <div class="modal modal-open">
       <div class="modal-box  flex flex-col items-center justify-center">
-        <h1 class="font-bold text-2xl text-secondary">Is this your card?</h1>
-        <p class="py-3">Just kidding. Only MTG fans allowed forward... Are you a fan?</p>
+        <h1 class="font-bold text-2xl text-secondary py-2">Is this your card?</h1>
+
 
         <div class=" w-full flex flex-col items-center">
           {#if !isCalled}
-            {#await ranCard() then fetchedCard}
+            {#await randomCard() then fetchedCard}
               {card = fetchedCard}
               {isCalled = true}
             {/await}
@@ -71,9 +55,10 @@
           {:else}
             <p>Loading card...</p>
           {/if}
-            <div class="form-control  hero-content  ">
+            <div class="form-control flex flex-col items-center justify-center ">
+              <p class="pt-6 pb-2">Just kidding. Only MTG fans allowed forward... Are you a fan?</p>
               <div class="modal-action  space-x-10">
-                <button class="btn w-24 btn-primary" on:click={() => userHandler(false)}>No</button>
+                <button class="btn w-24 btn-primary " on:click={() => userHandler(false)}>No</button>
                 <button class="btn w-24 btn-accent" on:click={() => userHandler(true)}>Yes</button>
 
               </div>
