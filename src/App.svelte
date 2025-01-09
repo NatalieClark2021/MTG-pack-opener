@@ -72,7 +72,7 @@
   {/if}
 
   <!-- Main Content -->
-  <div class="card w-7/12 mx-auto">
+  <div class="card w-full lg:w-6/12 mx-auto">
     <div class="navbar bg-base-100">
     </div>
     <Magic />
