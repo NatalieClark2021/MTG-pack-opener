@@ -58,8 +58,9 @@
             <div class="form-control flex flex-col items-center justify-center ">
               <p class="pt-6 pb-2">Just kidding. Only MTG fans allowed forward... Are you a fan?</p>
               <div class="modal-action  space-x-10">
+                <button class="btn w-24 btn-accent " on:click={() => userHandler(true)}>Yes</button>
                 <button class="btn w-24 btn-primary " on:click={() => userHandler(false)}>No</button>
-                <button class="btn w-24 btn-accent" on:click={() => userHandler(true)}>Yes</button>
+
 
               </div>
             </div>
@@ -73,7 +74,6 @@
   <!-- Main Content -->
   <div class="card w-10/12 mx-auto">
     <div class="navbar bg-base-100">
-      <h1 class="prose text-4xl leading-tight text-primary-content">Warmup MTG</h1>
     </div>
     <Magic />
   </div>

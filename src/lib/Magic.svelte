@@ -113,7 +113,7 @@
 
 
 <div class="p-4 bg-base-200 min-h-screen">
-    <h2 class="text-2xl font-bold mb-4">Magic: The Gathering Pack Opener</h2>
+    <h2 class="text-2xl font-bold mb-4 text-secondary">Magic: The Gathering Pack Opener</h2>
 
     <!-- Search Bar with Dynamic Suggestions -->
     <div class="form-control">
@@ -158,18 +158,21 @@
 
 
     <!-- Open Pack Button -->
-    <button
-            class="btn btn-primary w-full"
-            on:click={randomCards}
-            disabled={!selectedSet}
-    >
-        Open Pack
-    </button>
+    <div class="py-2">
+        <button
+                class="btn btn-neutral w-full"
+                on:click={randomCards}
+                disabled={!selectedSet}
+        >
+            Open Pack
+        </button>
+
+    </div>
 
 
     <!-- Display Opened Pack -->
     {#if pack.length > 0}
-        <h3 class="text-lg font-bold mb-4 mt-6">Your <em> {selectedSet[0].name} </em> Pack:</h3>
+        <h3 class="text-lg font-bold mb-5 mt-4">Your <em> {selectedSet[0].name} </em> Pack:</h3>
     {/if}
     {#if isLoading}
         <h3 class="text-lg font-bold mb-4 mt-6 text-secondary " >Your <em> {selectedSet[0].name} </em> Pack is Loading...</h3>
@@ -177,52 +180,7 @@
         <div class="">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-
-
-
-
-
-
-
-
-            <div class="flex flex-wrap gap-4 overflow-x-auto">
+            <div class="flex flex-wrap items-center justify-center gap-4 overflow-x-auto">
                 {#each pack as card}
 
                     <button class="card w-32 h-46 rounded-lg " on:click={() => showCard(card)}>
