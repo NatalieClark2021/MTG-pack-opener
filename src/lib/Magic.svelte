@@ -13,6 +13,8 @@
     let selectedCard:Card | null= null;
     let isModal = false;
 
+    let isLoading = false;
+
     // Fetch all sets on component mount
     import { onMount } from "svelte";
 
@@ -58,12 +60,14 @@
 
 
     async function randomCards(){
-
+        userInput = ""
         pack = [];
         const cardIterable = Scry.Cards.search(`set:${selectedSet[0].code}`);
         const cards= [];
         try {
             // Collect all cards from the iterable into an array
+            isLoading = true;
+
             for await (const card of cardIterable) {
                 cards.push(card);
             }
@@ -81,6 +85,8 @@
             pack = [...pack]; //THIS LINE IS VITAL TO RELOAD PACK ARRAY
         } catch (error){
             errorMessage = "There was an error attempting to fetch that pack";
+        } finally {
+            isLoading = false;
         }
     }
 
@@ -163,9 +169,57 @@
 
     <!-- Display Opened Pack -->
     {#if pack.length > 0}
-        <h3 class="text-lg font-bold mb-4 mt-6">Your Pack:</h3>
+        <h3 class="text-lg font-bold mb-4 mt-6">Your <em> {selectedSet[0].name} </em> Pack:</h3>
+    {/if}
+    {#if isLoading}
+        <h3 class="text-lg font-bold mb-4 mt-6 text-secondary " >Your <em> {selectedSet[0].name} </em> Pack is Loading...</h3>
     {/if}
         <div class="">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
 
 
             <div class="flex flex-wrap gap-4 overflow-x-auto">
