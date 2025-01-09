@@ -56,7 +56,7 @@
             <p>Loading card...</p>
           {/if}
             <div class="form-control flex flex-col items-center justify-center ">
-              <p class="pt-6 pb-2">Just kidding. Only MTG fans allowed forward... Are you a fan?</p>
+              <p class="pt-6 pb-2 text-black">Just kidding. Only MTG fans allowed forward... Are you a fan?</p>
               <div class="modal-action  space-x-10">
                 <button class="btn w-24 btn-accent " on:click={() => userHandler(true)}>Yes</button>
                 <button class="btn w-24 btn-primary " on:click={() => userHandler(false)}>No</button>
@@ -72,7 +72,7 @@
   {/if}
 
   <!-- Main Content -->
-  <div class="card w-10/12 mx-auto">
+  <div class="card w-7/12 mx-auto">
     <div class="navbar bg-base-100">
     </div>
     <Magic />

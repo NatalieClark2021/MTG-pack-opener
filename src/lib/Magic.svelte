@@ -77,7 +77,7 @@
             console.log("Fetched Cards:", cards);
 
 
-            while (pack.length < 15) {
+            while (pack.length < 14) {
                 const randomIndex = Math.floor(Math.random() * length);
                 pack.push(cards[randomIndex]);
                 console.log("Fetched Card:", cards[randomIndex]);
@@ -124,7 +124,7 @@
                 id="setSearch"
                 type="text"
                 placeholder="Enter a set name..."
-                class="input input-bordered mb-2"
+                class="input input-bordered mb-2 text-black"
                 bind:value={userInput}
                 on:input={filterSets}
         />
@@ -139,7 +139,7 @@
                 {#each filteredSets as set}
                     <li>
                         <button
-                                class="text-left w-full"
+                                class="text-left w-full text-black"
                                 on:click={() => selectSet(set)}
                         >
                             {set.name}
@@ -172,7 +172,7 @@
 
     <!-- Display Opened Pack -->
     {#if pack.length > 0}
-        <h3 class="text-lg font-bold mb-5 mt-4">Your <em> {selectedSet[0].name} </em> Pack:</h3>
+        <h3 class="text-lg font-bold mb-5 mt-4 text-black">Your <em> {selectedSet[0].name} </em> Pack:</h3>
     {/if}
     {#if isLoading}
         <h3 class="text-lg font-bold mb-4 mt-6 text-secondary " >Your <em> {selectedSet[0].name} </em> Pack is Loading...</h3>

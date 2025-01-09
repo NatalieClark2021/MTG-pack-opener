@@ -32,7 +32,7 @@ body {
 
 
 #app {
-  @apply w-3/4 max-w-screen-lg mx-auto px-8 text-center;/* Centered and responsive */
+  @apply w-full  mx-auto px-8 text-center;/* Centered and responsive */
 }
 
 
