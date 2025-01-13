@@ -1,8 +1,7 @@
 <script lang="ts">
   import svelteLogo from './assets/svelte.svg'
   import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
-  import Input from "./lib/Input.svelte";
+
   import Magic from "./lib/Magic.svelte";
   import * as Scry from "scryfall-sdk";
   import type { Card } from 'scryfall-sdk';
@@ -32,6 +31,11 @@
     }
   }
 </script>
+
+
+<svelte:head>
+  <title>MTG Pack Opener</title>
+</svelte:head>
 
 <main>
   <!-- Modal -->
