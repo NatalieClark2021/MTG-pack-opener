@@ -21,15 +21,14 @@
 
   }
 
-
-
   function userHandler(isFan: boolean){
     if(isFan){
       isModal = false;
     } else{
-      alert("lammmme (no losers allowed) ");
+      alert("Just say yes (no losers allowed) ");
     }
   }
+  
 </script>
 
 
@@ -38,7 +37,7 @@
 </svelte:head>
 
 <main>
-  <!-- Modal -->
+  <!-- Initial Popup -->
   {#if isModal}
     <div class="modal modal-open">
       <div class="modal-box  flex flex-col items-center justify-center">
@@ -75,7 +74,7 @@
     </div>
   {/if}
 
-  <!-- Main Content -->
+  <!-- Main Page -->
   <div class="card w-full lg:w-6/12 mx-auto">
     <div class="navbar bg-base-100">
     </div>

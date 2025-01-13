@@ -29,7 +29,7 @@
         }
     });
 
-    // Filter sets dynamically as the user types
+    // Filter sets dynamically
     function filterSets() {
         filteredSets = allSets
             .filter((set) => {
@@ -96,7 +96,7 @@
     function selectSet(set: Set): void {
         selectedSet[0] = set;
         userInput = set.name;
-        filteredSets = []; // Hide sets after select
+        filteredSets = []; // Hide sets
     }
 
     function showCard(card : Card){
@@ -115,7 +115,7 @@
 <div class="p-4 bg-base-200 min-h-screen">
     <h2 class="text-2xl font-bold mb-4 text-secondary">Magic: The Gathering Pack Opener</h2>
 
-    <!-- Search Bar with Dynamic Suggestions -->
+    <!-- Search Bar -->
     <div class="form-control">
         <label for="setSearch" class="block mb-2 font-bold">Search for a Set:</label>
 
@@ -129,12 +129,10 @@
                 on:input={filterSets}
         />
 
-        <!-- Dropdown Suggestions -->
+        <!-- Dropdown-->
         {#if filteredSets.length > 0}
-            <div
-                    class="bg-base-100 shadow-md rounded-lg overflow-y-auto"
-                    style="max-height: 200px;"
-            >
+            <div class="bg-base-100 shadow-md rounded-lg overflow-y-auto" style="max-height: 200px;">
+
             <ul class="menu p-2">
                 {#each filteredSets as set}
                     <li>
@@ -151,7 +149,7 @@
         {/if}
     </div>
 
-    <!-- Display Error Message -->
+    <!-- Error Message -->
     {#if errorMessage}
         <div class="text-red-500 mb-4">{errorMessage}</div>
     {/if}
@@ -170,7 +168,7 @@
     </div>
 
 
-    <!-- Display Opened Pack -->
+    <!-- Opened Pack -->
     {#if pack.length > 0}
         <h3 class="text-lg font-bold mb-5 mt-4 text-black">Your <em> {selectedSet[0].name} </em> Pack:</h3>
     {/if}
